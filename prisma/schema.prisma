@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id          String       @id @unique @default(uuid())
+  title       String
+  description String
+  tags        String[]
+  img         String?
+  dataurls    String[]
+  type        PROJECT_TYPE
+  term        String?      @db.Char(1)
+  year        Int
+  iqp_team    iqp_team?
+}
+
+model iqp_team {
+  id        Int      @id @unique @default(autoincrement())
+  sponsors  String[]
+  team      String[]
+  projectId String   @unique
+  advisors  String[]
+  Project   Project  @relation(fields: [projectId], references: [id])
+}
+
+model Maintainer {
+  id       String @id @unique
+  username String
+  password String
+}
+
+enum PROJECT_TYPE {
+  IQP
+  DATA
+  APP
+  PUBLICATION
+}
