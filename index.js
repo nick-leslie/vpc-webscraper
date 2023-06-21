@@ -134,8 +134,14 @@ async function grabFile(page,link) {
             description:description,
             tags:["iqp"],
             img:"https://www.veniceprojectcenter.org/assets/6-7319af239c15b9deb2fc4040ce9eb2b610185ab1c17912c770b43046dafc73f8.jpg",
-            dataurls:pdfLink,
-            iqp_team: {
+            Dataurl: {
+                create: [{
+                    url:pdfLink,
+                    text:"download iqp",
+                    type: "DOWNLOAD"
+                }]
+            },
+            IqpTeam: {
                 create: {
                     team: creators,
                     sponsors: sponsors,

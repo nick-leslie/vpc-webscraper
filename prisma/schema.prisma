@@ -7,20 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Project {
-  id          String       @id @unique @default(uuid())
-  title       String
-  description String
-  tags        String[]
-  img         String?
-  dataurls    String[]
-  type        PROJECT_TYPE
-  term        String?      @db.Char(1)
-  year        Int
-  iqp_team    iqp_team?
+model Dataurl {
+  id        String       @id @unique @default(uuid())
+  projectId String
+  url       String
+  text      String
+  type      DATAURL_TYPE
+  Project   Project      @relation(fields: [projectId], references: [id])
 }
 
-model iqp_team {
+model IqpTeam {
   id        Int      @id @unique @default(autoincrement())
   sponsors  String[]
   team      String[]
@@ -33,6 +29,24 @@ model Maintainer {
   id       String @id @unique
   username String
   password String
+}
+
+model Project {
+  id          String       @id @unique @default(uuid())
+  title       String
+  description String
+  tags        String[]
+  img         String?
+  type        PROJECT_TYPE
+  term        String?      @db.Char(1)
+  year        Int
+  Dataurl     Dataurl[]
+  IqpTeam     IqpTeam?
+}
+
+enum DATAURL_TYPE {
+  DOWNLOAD
+  EMBED
 }
 
 enum PROJECT_TYPE {
